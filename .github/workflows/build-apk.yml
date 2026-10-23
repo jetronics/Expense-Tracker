@@ -21,6 +21,7 @@ jobs:
           channel: stable
           cache: true
 
+      # The repo only holds lib/ and pubspec.yaml; generate the Android wrapper.
       - name: Generate Android project
         run: |
           flutter create . --project-name budget_tracker --org com.jet --platforms=android
@@ -29,6 +30,9 @@ jobs:
           sed -i 's/android:label="[^"]*"/android:label="Budget Tracker"/' android/app/src/main/AndroidManifest.xml
 
       - run: flutter pub get
+
+      - name: Generate app icon
+        run: dart run flutter_launcher_icons
 
       - run: flutter build apk --release
 
